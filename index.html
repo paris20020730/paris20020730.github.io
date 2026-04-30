@@ -18,91 +18,117 @@
             font-family: 'Noto Serif TC', serif;
             font-weight: 400;
         }
-        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
         /* 頂部 Logo 區塊 */
         header {
-            padding: 100px 20px 80px 20px;
+            padding: 60px 20px 50px 20px;
             text-align: center;
         }
         header h1 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             letter-spacing: 6px;
             margin: 0;
             color: #111;
         }
         header p {
             color: #888;
-            font-size: 0.85rem;
-            margin-top: 15px;
+            font-size: 0.8rem;
+            margin-top: 10px;
             letter-spacing: 4px;
         }
-        
+
         /* 主要內容區塊 */
         main {
-            max-width: 1100px;
+            max-width: 1000px; /* 縮小最大寬度讓版面更集中 */
             margin: 0 auto;
-            padding: 0 30px 100px 30px;
+            padding: 0 30px 60px 30px;
         }
 
-        /* 單一分類大區塊 */
-       .category-block {
-            display: block;
-            text-decoration: none;
-            color: inherit;
-            margin-bottom: 140px; /* 區塊之間的巨大留白 */
+        /* 左右交錯區塊設定 (Z字型佈局) */
+       .category-row {
+            display: flex;
+            align-items: center;
+            gap: 50px; /* 圖片與文字的間距 */
+            margin-bottom: 50px; /* 縮小區塊間距，讓訪客不用滑太多 */
+            group: 1;
+        }
+
+        /* 關鍵：利用 CSS 讓偶數列自動左右反轉 */
+       .category-row:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        /* 文字區塊 */
+       .text-box {
+            flex: 1; /* 佔據 50% 寬度 */
             text-align: center;
+            padding: 20px;
         }
-        
-        /* 分類標題 */
        .category-title {
-            font-size: 2rem;
-            letter-spacing: 5px;
-            margin: 0 0 40px 0;
-            transition: color 0.4s ease;
+            font-size: 1.8rem;
+            letter-spacing: 4px;
+            margin: 0 0 15px 0;
+        }
+       .view-link {
+            font-size: 0.85rem;
+            color: #888;
+            letter-spacing: 2px;
+            border-bottom: 1px solid #DDD;
+            padding-bottom: 4px;
+            transition: color 0.4s ease, border-color 0.4s ease;
         }
         
-        /* 照片容器 (隱藏溢出的放大邊緣) */
-       .image-container {
+        /* 游標移上去時的文字變化 */
+       .category-row:hover.view-link {
+            color: #111;
+            border-color: #111;
+        }
+
+        /* 圖片區塊 */
+       .image-box {
+            flex: 1; /* 佔據 50% 寬度 */
             width: 100%;
-            aspect-ratio: 16/9; /* 電腦版呈現電影感的橫式比例 */
+            aspect-ratio: 4/3; /* 經典的相機比例，不會像 16:9 那麼扁長 */
             overflow: hidden;
             background-color: #EFEFEF;
         }
-        
-        /* 實際照片 (帶有平滑放大動畫) */
        .image-bg {
             width: 100%;
             height: 100%;
             background-size: cover;
             background-position: center;
-            transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         
-        /* 游標移上去時的互動效果 */
-       .category-block:hover.image-bg {
-            transform: scale(1.04);
-        }
-       .category-block:hover.category-title {
-            color: #666;
+        /* 游標移上去時的圖片放大效果 */
+       .category-row:hover.image-bg {
+            transform: scale(1.05); 
         }
 
         /* 頁尾 */
         footer {
             text-align: center;
-            padding: 60px 20px;
+            padding: 40px 20px;
             font-size: 0.8rem;
             color: #AAA;
             border-top: 1px solid #EEE;
             letter-spacing: 1px;
-            margin-top: 50px;
         }
 
-        /* 手機版適配：照片改為較適合手機觀看的比例，並縮小間距 */
+        /* 手機版適配：螢幕變小時自動改為上下垂直排列 */
         @media (max-width: 768px) {
-            header { padding: 60px 20px 40px 20px; }
-           .category-block { margin-bottom: 80px; }
-           .category-title { font-size: 1.5rem; margin-bottom: 25px; }
-           .image-container { aspect-ratio: 4/5; }
+           .category-row,.category-row:nth-child(even) {
+                flex-direction: column;
+                gap: 20px;
+                margin-bottom: 60px;
+            }
+           .text-box {
+                padding: 10px 0 0 0;
+            }
         }
     </style>
 </head>
@@ -114,31 +140,43 @@
     </header>
 
     <main>
-        <a href="#table-tennis-page" class="category-block">
-            <h2 class="category-title">桌球攝影</h2>
-            <div class="image-container">
-                <div class="image-bg" style="background-image: url('https://images.unsplash.com/photo-1534158914592-062992fbe900?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');"></div>
+        <a href="#table-tennis-page" class="category-row">
+            <div class="text-box">
+                <h2 class="category-title">桌球攝影</h2>
+                <span class="view-link">View Gallery</span>
+            </div>
+            <div class="image-box">
+                <div class="image-bg" style="background-image: url('https://images.unsplash.com/photo-1534158914592-062992fbe900?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
             </div>
         </a>
 
-        <a href="#travel-page" class="category-block">
-            <h2 class="category-title">旅遊街拍</h2>
-            <div class="image-container">
-                <div class="image-bg" style="background-image: url('https://images.unsplash.com/photo-1499856871958-5b9627545d1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');"></div>
+        <a href="#travel-page" class="category-row">
+            <div class="text-box">
+                <h2 class="category-title">旅遊街拍</h2>
+                <span class="view-link">View Gallery</span>
+            </div>
+            <div class="image-box">
+                <div class="image-bg" style="background-image: url('https://images.unsplash.com/photo-1499856871958-5b9627545d1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
             </div>
         </a>
 
-        <a href="#portrait-page" class="category-block">
-            <h2 class="category-title">人像</h2>
-            <div class="image-container">
-                <div class="image-bg" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');"></div>
+        <a href="#portrait-page" class="category-row">
+            <div class="text-box">
+                <h2 class="category-title">人像</h2>
+                <span class="view-link">View Gallery</span>
+            </div>
+            <div class="image-box">
+                <div class="image-bg" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
             </div>
         </a>
 
-        <a href="#street-page" class="category-block">
-            <h2 class="category-title">日常街拍</h2>
-            <div class="image-container">
-                <div class="image-bg" style="background-image: url('https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');"></div>
+        <a href="#street-page" class="category-row">
+            <div class="text-box">
+                <h2 class="category-title">日常街拍</h2>
+                <span class="view-link">View Gallery</span>
+            </div>
+            <div class="image-box">
+                <div class="image-bg" style="background-image: url('https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
             </div>
         </a>
     </main>
