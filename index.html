@@ -6,129 +6,89 @@
     <title>PRS_PHT | 攝影作品集</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400&family=Noto+Serif+TC:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        /* 基礎設定 */
+        /* 基礎設定與留白美學 */
         body {
             margin: 0;
+            padding: 0;
             font-family: 'Noto Sans TC', sans-serif;
             background-color: #FAFAFA;
             color: #222;
-            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden; /* 防止左右滑動 */
         }
-        h1, h2 {
-            font-family: 'Noto Serif TC', serif;
-            font-weight: 400;
-        }
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        /* 頂部 Logo 區塊 */
+        
+        /* 頂部 Logo */
         header {
-            padding: 60px 20px 50px 20px;
-            text-align: center;
+            position: absolute;
+            top: 40px;
+            left: 50px;
+            z-index: 10;
         }
         header h1 {
-            font-size: 2rem;
-            letter-spacing: 6px;
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.5rem;
+            letter-spacing: 4px;
             margin: 0;
-            color: #111;
-        }
-        header p {
-            color: #888;
-            font-size: 0.8rem;
-            margin-top: 10px;
-            letter-spacing: 4px;
         }
 
-        /* 主要內容區塊 */
-        main {
-            max-width: 1000px; /* 縮小最大寬度讓版面更集中 */
-            margin: 0 auto;
-            padding: 0 30px 60px 30px;
-        }
-
-        /* 左右交錯區塊設定 (Z字型佈局) */
-       .category-row {
+        /* 左右分欄主架構 */
+       .container {
             display: flex;
+            height: 100vh; /* 滿版高度 */
             align-items: center;
-            gap: 50px; /* 圖片與文字的間距 */
-            margin-bottom: 50px; /* 縮小區塊間距，讓訪客不用滑太多 */
-            group: 1;
         }
 
-        /* 關鍵：利用 CSS 讓偶數列自動左右反轉 */
-       .category-row:nth-child(even) {
-            flex-direction: row-reverse;
+        /* 左側導覽列 (你的檔案設計) */
+       .left-menu {
+            width: 40%;
+            padding-left: 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 40px; /* 類別之間的留白 */
+            z-index: 2;
         }
 
-        /* 文字區塊 */
-       .text-box {
-            flex: 1; /* 佔據 50% 寬度 */
-            text-align: center;
-            padding: 20px;
+       .category-link {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 2.2rem;
+            color: #999;
+            text-decoration: none;
+            letter-spacing: 3px;
+            transition: color 0.4s ease, transform 0.4s ease;
+            cursor: pointer;
+            width: fit-content;
         }
-       .category-title {
-            font-size: 1.8rem;
-            letter-spacing: 4px;
-            margin: 0 0 15px 0;
-        }
-       .view-link {
-            font-size: 0.85rem;
-            color: #888;
-            letter-spacing: 2px;
-            border-bottom: 1px solid #DDD;
-            padding-bottom: 4px;
-            transition: color 0.4s ease, border-color 0.4s ease;
-        }
-        
-        /* 游標移上去時的文字變化 */
-       .category-row:hover.view-link {
+
+        /* 滑鼠移過去的互動效果 */
+       .category-link:hover {
             color: #111;
-            border-color: #111;
+            transform: translateX(15px); /* 文字微微向右平移 */
         }
 
-        /* 圖片區塊 */
-       .image-box {
-            flex: 1; /* 佔據 50% 寬度 */
-            width: 100%;
-            aspect-ratio: 4/3; /* 經典的相機比例，不會像 16:9 那麼扁長 */
-            overflow: hidden;
+        /* 右側照片預覽區 */
+       .right-preview {
+            width: 60%;
+            height: 100vh;
+            position: relative;
             background-color: #EFEFEF;
+            overflow: hidden;
         }
-       .image-bg {
+
+        #preview-img {
             width: 100%;
             height: 100%;
-            background-size: cover;
-            background-position: center;
-            transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        
-        /* 游標移上去時的圖片放大效果 */
-       .category-row:hover.image-bg {
-            transform: scale(1.05); 
+            object-fit: cover;
+            object-position: center;
+            opacity: 1;
+            transition: opacity 0.6s ease; /* 圖片切換時的淡入淡出效果 */
         }
 
-        /* 頁尾 */
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            font-size: 0.8rem;
-            color: #AAA;
-            border-top: 1px solid #EEE;
-            letter-spacing: 1px;
-        }
-
-        /* 手機版適配：螢幕變小時自動改為上下垂直排列 */
+        /* 手機版適配：改為單純的上下排列清單 */
         @media (max-width: 768px) {
-           .category-row,.category-row:nth-child(even) {
-                flex-direction: column;
-                gap: 20px;
-                margin-bottom: 60px;
-            }
-           .text-box {
-                padding: 10px 0 0 0;
-            }
+           .container { flex-direction: column; height: auto; padding-top: 120px; }
+           .left-menu { width: 100%; padding: 0 30px; gap: 30px; text-align: left; }
+           .category-link { font-size: 1.8rem; color: #111; }
+           .right-preview { width: 100%; height: 50vh; margin-top: 50px; }
+            header { left: 30px; }
         }
     </style>
 </head>
@@ -136,54 +96,40 @@
 
     <header>
         <h1>PRS_PHT</h1>
-        <p>PHOTOGRAPHY PORTFOLIO</p>
     </header>
 
-    <main>
-        <a href="#table-tennis-page" class="category-row">
-            <div class="text-box">
-                <h2 class="category-title">桌球攝影</h2>
-                <span class="view-link">View Gallery</span>
-            </div>
-            <div class="image-box">
-                <div class="image-bg" style="background-image: url('https://images.unsplash.com/photo-1534158914592-062992fbe900?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
-            </div>
-        </a>
+    <div class="container">
+        <div class="left-menu">
+            <a href="#table-tennis" class="category-link" onmouseover="changeImage('https://images.unsplash.com/photo-1534158914592-062992fbe900?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80')">桌球攝影</a>
+            
+            <a href="#travel" class="category-link" onmouseover="changeImage('https://images.unsplash.com/photo-1499856871958-5b9627545d1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80')">旅遊街拍</a>
+            
+            <a href="#portrait" class="category-link" onmouseover="changeImage('https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80')">人像</a>
+            
+            <a href="#street" class="category-link" onmouseover="changeImage('https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80')">日常街拍</a>
+        </div>
 
-        <a href="#travel-page" class="category-row">
-            <div class="text-box">
-                <h2 class="category-title">旅遊街拍</h2>
-                <span class="view-link">View Gallery</span>
-            </div>
-            <div class="image-box">
-                <div class="image-bg" style="background-image: url('https://images.unsplash.com/photo-1499856871958-5b9627545d1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
-            </div>
-        </a>
+        <div class="right-preview">
+            <img id="preview-img" src="https://images.unsplash.com/photo-1534158914592-062992fbe900?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="攝影預覽">
+        </div>
+    </div>
 
-        <a href="#portrait-page" class="category-row">
-            <div class="text-box">
-                <h2 class="category-title">人像</h2>
-                <span class="view-link">View Gallery</span>
-            </div>
-            <div class="image-box">
-                <div class="image-bg" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
-            </div>
-        </a>
+    <script>
+        function changeImage(imageUrl) {
+            const imgElement = document.getElementById('preview-img');
+            
+            // 如果網址跟現在一樣就不執行，避免重複閃爍
+            if (imgElement.src === imageUrl) return; 
 
-        <a href="#street-page" class="category-row">
-            <div class="text-box">
-                <h2 class="category-title">日常街拍</h2>
-                <span class="view-link">View Gallery</span>
-            </div>
-            <div class="image-box">
-                <div class="image-bg" style="background-image: url('https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
-            </div>
-        </a>
-    </main>
-
-    <footer>
-        &copy; 2026 PRS_PHT Photography. All Rights Reserved.
-    </footer>
-
+            // 創造淡出效果
+            imgElement.style.opacity = 0;
+            
+            // 等待一小段時間後更換圖片並淡入
+            setTimeout(() => {
+                imgElement.src = imageUrl;
+                imgElement.style.opacity = 1;
+            }, 300); // 300毫秒的轉場時間
+        }
+    </script>
 </body>
 </html>
