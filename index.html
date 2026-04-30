@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>攝影作品集 | 藝廊留白風格</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400&family=Noto+Serif+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* 基礎全站設定：乾淨的背景與字體 */
+        body {
+            margin: 0;
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #FAFAFA; /* 微微的暖灰白，比純白更有質感 */
+            color: #333;
+            line-height: 1.6;
+        }
+        h1, h2, h3 {
+            font-family: 'Noto Serif TC', serif; /* 標題使用宋體營造高級感 */
+            font-weight: 500;
+        }
+        
+        /* 頂部導覽與標題 (宏觀留白) */
+        header {
+            padding: 80px 20px 40px 20px;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 2.5rem;
+            letter-spacing: 4px;
+            margin: 0;
+        }
+        header p {
+            color: #777;
+            font-size: 1rem;
+            margin-top: 15px;
+            letter-spacing: 2px;
+        }
+        
+        /* 選單按鈕 (微觀留白) */
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 50px 0;
+        }
+        nav button {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-family: 'Noto Sans TC', sans-serif;
+            color: #999;
+            cursor: pointer;
+            padding-bottom: 5px;
+            transition: color 0.4s ease;
+            letter-spacing: 1px;
+        }
+        nav button:hover, nav button.active {
+            color: #111;
+            border-bottom: 1px solid #111;
+        }
+        
+        /* 藝廊網格排版 */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px 100px 40px;
+        }
+       .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 60px; /* 照片之間的巨大留白 */
+        }
+       .gallery-item {
+            width: 100%;
+            aspect-ratio: 4/5; /* 統一的照片比例設定 */
+            background-color: #EFEFEF;
+            background-size: cover;
+            background-position: center;
+            opacity: 1;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            cursor: pointer;
+        }
+       .gallery-item:hover {
+            transform: translateY(-8px); /* 滑鼠游標移過去時微微上浮 */
+        }
+        
+        /* 分類篩選功能的隱藏設定 */
+       .hidden {
+            display: none;
+        }
+        
+        /* 頁尾 */
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            font-size: 0.85rem;
+            color: #AAA;
+            border-top: 1px solid #EEE;
+            letter-spacing: 1px;
+        }
+
+        /* 手機版適配 */
+        @media (max-width: 768px) {
+            main { padding: 0 20px 60px 20px; }
+           .gallery { gap: 30px; grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>YOUR NAME</h1>
+        <p>PHOTOGRAPHY PORTFOLIO</p>
+        
+        <nav>
+            <button class="active" onclick="filterGallery('all')">全部作品</button>
+            <button onclick="filterGallery('table-tennis')">桌球競技</button>
+            <button onclick="filterGallery('travel')">旅遊街拍</button>
+            <button onclick="filterGallery('street')">街拍</button>
+            <button onclick="filterGallery('portrait')">人像</button>
+        </nav>
+    </header>
+
+    <main>
+        <div class="gallery" id="gallery">
+            <div class="gallery-item table-tennis" style="background-image: url('https://images.unsplash.com/photo-1534158914592-062992fbe900?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+            
+            <div class="gallery-item travel" style="background-image: url('https://images.unsplash.com/photo-1499856871958-5b9627545d1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+            
+            <div class="gallery-item street" style="background-image: url('https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+            
+            <div class="gallery-item portrait" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+            
+            <div class="gallery-item portrait" style="background-image: url('https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+            
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2026 Your Name Photography. All Rights Reserved.
+    </footer>
+
+    <script>
+        function filterGallery(category) {
+            const buttons = document.querySelectorAll('nav button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const items = document.querySelectorAll('.gallery-item');
+            items.forEach(item => {
+                if (category === 'all' |
+
+| item.classList.contains(category)) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
